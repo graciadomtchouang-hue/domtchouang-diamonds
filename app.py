@@ -5,12 +5,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
 
-# ── Configuration de la page ──────────────────────────────────────────────────
+# Configuration de la page 
 st.set_page_config(page_title="Coupe des Diamants — SVM", page_icon="💎", layout="wide")
 st.title("💎 Prédiction de la Qualité de Coupe — DOMTCHOUANG")
 st.markdown("---")
 
-# ── Chargement des données et du modèle ──────────────────────────────────────
+# Chargement des données et du modèle 
 df         = pd.read_csv("diamonds.csv").drop(columns=["Unnamed: 0"])
 model      = joblib.load("svm_model.pkl")
 scaler     = joblib.load("scaler.pkl")
@@ -21,12 +21,12 @@ le_cut     = joblib.load("le_cut.pkl")
 ORDRE    = ['Fair', 'Good', 'Very Good', 'Premium', 'Ideal']
 COULEURS = ['#e74c3c', '#e67e22', '#f1c40f', '#2ecc71', '#3498db']
 
-# ── Navigation ────────────────────────────────────────────────────────────────
+#  Navigation 
 page = st.sidebar.radio("Page", ["📊 Données", "📈 Graphiques", "🔮 Prédiction"])
 
-# ═══════════════════════════════════════════════════════════════════════════════
+
 # PAGE 1 : Données
-# ═══════════════════════════════════════════════════════════════════════════════
+
 if page == "📊 Données":
     st.header("📊 Exploration des données")
 
@@ -42,9 +42,9 @@ if page == "📊 Données":
     st.subheader("Statistiques descriptives")
     st.dataframe(df.describe().round(2), use_container_width=True)
 
-# ═══════════════════════════════════════════════════════════════════════════════
+
 # PAGE 2 : Graphiques
-# ═══════════════════════════════════════════════════════════════════════════════
+
 elif page == "📈 Graphiques":
     st.header("📈 Visualisations")
 
@@ -58,6 +58,7 @@ elif page == "📈 Graphiques":
         ax.set_title("Nombre de diamants par Cut")
         ax.set_ylabel("Nombre")
         st.pyplot(fig)
+        st.caption("Ce graphique montre combien de diamants appartiennent à chaque qualité de coupe. Ideal est la plus fréquente.")
 
     # Graphique 2 : Prix moyen par cut
     with col2:
@@ -67,6 +68,7 @@ elif page == "📈 Graphiques":
         ax.set_title("Prix moyen par Cut")
         ax.set_ylabel("Prix ($)")
         st.pyplot(fig)
+        st.caption("Paradoxalement, les coupes Fair et Premium ont un prix moyen plus élevé car elles concernent souvent de gros diamants.")
 
     col3, col4 = st.columns(2)
 
@@ -79,6 +81,7 @@ elif page == "📈 Graphiques":
         ax.set_title("Carat par Cut")
         plt.suptitle("")
         st.pyplot(fig)
+        st.caption("Les boîtes montrent la distribution du carat selon la coupe. Les coupes Fair contiennent les plus gros diamants en moyenne.")
 
     # Graphique 4 : Corrélation
     with col4:
@@ -87,10 +90,11 @@ elif page == "📈 Graphiques":
                     cmap='coolwarm', center=0, ax=ax)
         ax.set_title("Corrélation")
         st.pyplot(fig)
+        st.caption("Les cases rouges/bleues indiquent une forte corrélation. x, y, z et carat sont très liés car ils mesurent tous la taille du diamant.")
 
-# ═══════════════════════════════════════════════════════════════════════════════
+
 # PAGE 3 : Prédiction
-# ═══════════════════════════════════════════════════════════════════════════════
+
 elif page == "🔮 Prédiction":
     st.header("🔮 Prédire la qualité de coupe")
 
